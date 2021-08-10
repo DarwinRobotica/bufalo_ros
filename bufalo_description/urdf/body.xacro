@@ -102,6 +102,41 @@
         <axis xyz="0 0 0" />
     </joint>
 
+    <!-- Side Plate -->
+    <xacro:macro name="side_plate" params="lr y">
+        <link name="${lr}_plate">
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <mass value="0.183" />
+                <inertia ixx="0.0007" ixy="0" ixz="0" iyy="0.0103" iyz="0" izz="0.0110" />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://bufalo_description/meshes/side_plate.STL" />
+                </geometry>
+                <material name="black">
+                    <color rgba="0.3 0.3 0.3 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://bufalo_description/meshes/side_plate.STL" />
+                </geometry>
+            </collision>
+        </link>
+        <gazebo reference="{lr}_plate">
+            <material>Gazebo/DarkGrey</material>
+        </gazebo>
+        <joint name="${lr}_plate_joint" type="fixed">
+            <origin xyz="0 ${y} 0" rpy="1.5708 0 3.1416" />
+            <parent link="base_link" />
+            <child link="${lr}_plate" />
+            <axis xyz="0 0 0" />
+        </joint>
+    </xacro:macro>
+
     <!-- Bumper -->
     <xacro:macro name="bumper" params="side xyz rpy">
         <link name="bumper_${side}">

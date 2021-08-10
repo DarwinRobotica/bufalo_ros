@@ -33,6 +33,9 @@
 
   <xacro:control_panel />
 
+  <xacro:side_plate lr="r" y="0.2" />
+  <xacro:side_plate lr="l" y="-0.201" />
+
   <!-- Transmissions -->
   <xacro:transmission_wheel pos="fl" />
   <xacro:transmission_wheel pos="bl" />
