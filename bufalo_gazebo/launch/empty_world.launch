@@ -1,0 +1,17 @@
+<launch>
+  <!-- Gazebo -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch" />
+
+  <!-- Spawn Búfalo -->
+  <include file="$(find bufalo_gazebo)/launch/spawn_bufalo.launch" />
+
+  <!-- Launch Rviz -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find bufalo_description)/rviz/bufalo_with_sensors.rviz" />
+
+  <!-- Joint Publishers -->
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
+
+  <!-- Control Node -->
+  <include file="$(find bufalo_control)/launch/control.launch" />
+</launch>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="bufalo">
+  <!-- Include Xacros -->
+  <xacro:include filename="$(find bufalo_description)/urdf/body.xacro" />
+  <xacro:include filename="$(find bufalo_description)/urdf/transmission.xacro" />
+  <xacro:if value="$(arg spawn_imu)">
+    <xacro:include filename="$(find bufalo_description)/urdf/sensors/imu.xacro" />
+  </xacro:if>
+  <xacro:if value="$(arg spawn_laser)">
+    <xacro:include filename="$(find bufalo_description)/urdf/sensors/laser.xacro" />
+  </xacro:if>
+  <xacro:if value="$(arg spawn_rgb)">
+    <xacro:include filename="$(find bufalo_description)/urdf/sensors/rgb_camera.xacro" />
+  </xacro:if>
+
+  <!-- Main Body -->
+  <xacro:base_link />
+
+  <xacro:wheel lr="r" fb="f" />
+  <xacro:wheel_joint lr="r" fb="f" xyz="0.22 -0.208 -0.035" rpy="1.5708 0 0" z="-1" />
+
+  <xacro:wheel lr="l" fb="f" />
+  <xacro:wheel_joint lr="l" fb="f" xyz="0.22 0.208 -0.035" rpy="1.5708 0 -3.1416" z="1" />
+
+  <xacro:wheel lr="r" fb="b" />
+  <xacro:wheel_joint lr="r" fb="b" xyz="-0.22 -0.208 -0.035" rpy="1.5708 0 0" z="-1" />
+
+  <xacro:wheel lr="l" fb="b" />
+  <xacro:wheel_joint lr="l" fb="b" xyz="-0.22 0.208 -0.035" rpy="1.5708 0 -3.1416" z="1" />
+
+  <xacro:bumper side="back" xyz="-0.45 0 0" rpy="1.5708 0 -1.5708" />
+  <xacro:bumper side="front" xyz="0.45 0 0" rpy="1.5708 0 1.5708" />
+
+  <xacro:control_panel />
+
+  <!-- Transmissions -->
+  <xacro:transmission_wheel pos="fl" />
+  <xacro:transmission_wheel pos="bl" />
+  <xacro:transmission_wheel pos="br" />
+  <xacro:transmission_wheel pos="fr" />
+
+  <!-- Gazebo Plugins -->
+  <gazebo>
+    <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so" />
+  </gazebo>
+</robot>

@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<robot xmlns:xacro="http://ros.org/wiki/xacro" name="bufalo">
+
+    <!-- Wheels -->
+    <xacro:macro name="wheel" params="lr fb">
+        <link name="${fb}${lr}_wheel">
+            <inertial>
+                <origin xyz="0 0 0.038108" rpy="0 0 0" />
+                <mass value="3.102" />
+                <inertia ixx="0.016833" ixy="0" ixz="0" iyy="0.01683" iyz="0" izz="0.0312" />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://bufalo_description/meshes/wheel.dae" />
+                </geometry>
+                <material name="black">
+                    <color rgba="0.3 0.3 0.3 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <cylinder length="0.08" radius="0.1305" />
+                </geometry>
+            </collision>
+        </link>
+        <gazebo reference="${fb}${lr}_wheel">
+            <material>Gazebo/Black</material>
+        </gazebo>
+    </xacro:macro>
+
+    <!-- Wheel Joints -->
+    <xacro:macro name="wheel_joint" params="lr fb xyz rpy z">
+        <joint name="${fb}${lr}_wheel_joint" type="continuous">
+            <origin xyz="${xyz}" rpy="${rpy}" />
+            <parent link="base_link" />
+            <child link="${fb}${lr}_wheel" />
+            <axis xyz="0 0 ${z}" />
+        </joint>
+    </xacro:macro>
+
+    <!-- Base Link -->
+    <xacro:macro name="base_link">
+        <link name="base_link">
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <mass value="73.58" />
+                <inertia ixx="1.281" ixy="0" ixz="0" iyy="5.126" iyz="0" izz="4.425" />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://bufalo_description/meshes/base_link.STL" />
+                </geometry>
+                <material name="">
+                    <color rgba="0.26 0.26 0.92 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://bufalo_description/meshes/base_link.STL" />
+                </geometry>
+            </collision>
+        </link>
+        <gazebo reference="base_link">
+            <material>Gazebo/SkyBlue</material>
+        </gazebo>
+    </xacro:macro>
+
+    <!-- Top Bar -->
+    <link name="top_bar">
+        <inertial>
+            <origin xyz="0 0 0.015" rpy="0 0 0" />
+            <mass value="1.4" />
+            <inertia ixx="0.031" ixy="0" ixz="0" iyy="0.044" iyz="0" izz="0.074" />
+        </inertial>
+        <visual>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://bufalo_description/meshes/top_bar.STL" />
+            </geometry>
+            <material name="black">
+                <color rgba="0.3 0.3 0.3 1" />
+            </material>
+        </visual>
+        <collision>
+            <origin xyz="0 0 0" rpy="0 0 0" />
+            <geometry>
+                <mesh filename="package://bufalo_description/meshes/top_bar.STL" />
+            </geometry>
+        </collision>
+    </link>
+    <gazebo reference="top_bar">
+        <material>Gazebo/Black</material>
+    </gazebo>
+    <joint name="top_bar_joint" type="fixed">
+        <origin xyz="0 0 0.115" rpy="0 0 0" />
+        <parent link="base_link" />
+        <child link="top_bar" />
+        <axis xyz="0 0 0" />
+    </joint>
+
+    <!-- Bumper -->
+    <xacro:macro name="bumper" params="side xyz rpy">
+        <link name="bumper_${side}">
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <mass value="0.335" />
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0.004" iyz="0" izz="0.004" />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://bufalo_description/meshes/bumper.dae" />
+                </geometry>
+                <material name="black">
+                    <color rgba="0.3 0.3 0.3 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://bufalo_description/meshes/bumper.dae" />
+                </geometry>
+            </collision>
+        </link>
+        <gazebo reference="bumper_${side}">
+            <material>Gazebo/Black</material>
+        </gazebo>
+        <joint name="bumper_${side}_joint" type="fixed">
+            <origin xyz="${xyz}" rpy="${rpy}" />
+            <parent link="base_link" />
+            <child link="bumper_${side}" />
+            <axis xyz="0 0 0" />
+        </joint>
+    </xacro:macro>
+
+    <!-- Control Panel -->
+    <xacro:macro name="control_panel">
+        <link name="control_panel">
+            <inertial>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <mass value="0" />
+                <inertia ixx="0" ixy="0" ixz="0" iyy="0" iyz="0" izz="0" />
+            </inertial>
+            <visual>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://bufalo_description/meshes/control_panel.STL" />
+                </geometry>
+                <material name="black">
+                    <color rgba="0.3 0.3 0.3 1" />
+                </material>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="0 0 0" />
+                <geometry>
+                    <mesh filename="package://bufalo_description/meshes/control_panel.STL" />
+                </geometry>
+            </collision>
+            <material name="black">
+                <color rgba="0.3 0.3 0.3 1" />
+            </material>
+        </link>
+        <joint name="control_panel_joint" type="fixed">
+            <origin xyz="-0.096 0 0.192" rpy="0 -0.464 0" />
+            <parent link="base_link" />
+            <child link="control_panel" />
+            <axis xyz="0 0 0" />
+        </joint>
+        <gazebo reference="control_panel">
+            <material>Gazebo/Black</material>
+        </gazebo>
+    </xacro:macro>
+
+</robot>
